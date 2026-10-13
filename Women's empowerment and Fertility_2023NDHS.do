@@ -79,9 +79,9 @@ recode v467f (1=0)(2=1), gen(bhcalone)
 fre v393 v394
 clonevar fphomvisity = v393
 clonevar fphcvisity = v394
-egen healthcare = rowtotal(bhcpermit bhcmoney bhcdistance bhcalone insurance)
+egen healthcare = rowtotal(bhcpermit bhcmoney bhcdistance bhcalone /*insurance*/)
 ta healthcare 
-recode healthcare (0/1=0 "Low access")(2/3=1 "Moderate access")(4/5=2 "High access"), gen(health_care)
+recode healthcare (0/1=0 "Low ease of access")(2=1 "Moderate ease of access")(3/4=2 "High ease of access"), gen(health_care)
 fre health_care
 
 ****Educational levels
@@ -210,12 +210,12 @@ clonevar newdvpsexever = newsexy
 
 ***Ideal number of children
 fre v613
-recode v613 (0/2=0 "0-2")(3/30=1 "3+")(else=2 "God/Allah/fate wills/uncertain/Don't know"), gen(ideal_child)
+recode v613 (0/2=0 "0-2")(3/4=1 "3-4")(5/6=2 "5-6")(6/30=3 "6+")(else=4 "God/Allah/fate wills/uncertain/Don't know"), gen(ideal_child)
 ta ideal_child
 
 ***Total children ever born
 clonevar cheb = v201
-recode cheb (0=0 "Childless")(else=1 "Non-childless"), gen(children)
+recode cheb (0=0 "Childless")(else=1 "Parous"), gen(children)
 fre children
 
 ***Abortion
@@ -228,6 +228,197 @@ fre age
 la def age 15 "15 years" 16 "16 years" 17 "17 years"
 la val age age
 fre age
+
+
+**********************************************************************
+* Stage A *** Compile parameters/inputs for Level-weights calculations
+**********************************************************************
+* a_c_h completed clusters by strata
+gen a_c_h=.
+quietly levelsof v022, local(lstrata)
+quietly foreach ls of local lstrata {
+tab v021 if v022==`ls', matrow(T)
+scalar stemp=rowsof(T)
+replace a_c_h=stemp if v022==`ls'
+}
+
+gen A_h = 0
+replace A_h = 3040 if v022 == 1
+replace A_h = 11743 if v022 == 2
+replace A_h = 4539 if v022 == 3
+replace A_h = 19234 if v022 == 4
+replace A_h = 14760 if v022 == 5
+replace A_h = 4229 if v022 == 6
+replace A_h = 2035 if v022 == 7
+replace A_h = 7084 if v022 == 8
+replace A_h = 3799 if v022 == 9
+replace A_h = 10686 if v022 == 10
+replace A_h = 3851 if v022 == 11
+replace A_h = 7658 if v022 == 12
+replace A_h = 2576 if v022 == 13
+replace A_h = 15685 if v022 == 14
+replace A_h = 9625 if v022 == 15
+replace A_h = 18684 if v022 == 16
+replace A_h = 17799 if v022 == 17
+replace A_h = 23380 if v022 == 18
+replace A_h = 8436 if v022 == 19
+replace A_h = 20025 if v022 == 20
+replace A_h = 3715 if v022 == 21
+replace A_h = 12225 if v022 == 22
+replace A_h = 1806 if v022 == 23
+replace A_h = 13321 if v022 == 24
+replace A_h = 3128 if v022 == 25
+replace A_h = 9773 if v022 == 26
+replace A_h = 5179 if v022 == 27
+replace A_h = 15210 if v022 == 28
+replace A_h = 6682 if v022 == 29
+replace A_h = 3901 if v022 == 30
+replace A_h = 3412 if v022 == 31
+replace A_h = 7106 if v022 == 32
+replace A_h = 5345 if v022 == 33
+replace A_h = 7986 if v022 == 34
+replace A_h = 5469 if v022 == 35
+replace A_h = 7093 if v022 == 36
+replace A_h = 6466 if v022 == 37
+replace A_h = 14305 if v022 == 38
+replace A_h = 3456 if v022 == 39
+replace A_h = 13659 if v022 == 40
+replace A_h = 5130 if v022 == 41
+replace A_h = 5243 if v022 == 42
+replace A_h = 7522 if v022 == 43
+replace A_h = 5337 if v022 == 44
+replace A_h = 3169 if v022 == 45
+replace A_h = 6416 if v022 == 46
+replace A_h = 8483 if v022 == 47
+replace A_h = 4815 if v022 == 48
+replace A_h = 5053 if v022 == 49
+replace A_h = 10520 if v022 == 50
+replace A_h = 7717 if v022 == 51
+replace A_h = 8378 if v022 == 52
+replace A_h = 2931 if v022 == 53
+replace A_h = 1638 if v022 == 54
+replace A_h = 4738 if v022 == 55
+replace A_h = 3264 if v022 == 56
+replace A_h = 10214 if v022 == 57
+replace A_h = 2930 if v022 == 58
+replace A_h = 7259 if v022 == 59
+replace A_h = 1813 if v022 == 60
+replace A_h = 14120 if v022 == 61
+replace A_h = 3500 if v022 == 62
+replace A_h = 4181 if v022 == 63
+replace A_h = 1122 if v022 == 64
+replace A_h = 32280 if v022 == 65
+replace A_h = 1121 if v022 == 66
+replace A_h = 21572 if v022 == 67
+replace A_h = 4167 if v022 == 68
+replace A_h = 6610 if v022 == 69
+replace A_h = 3847 if v022 == 70
+replace A_h = 10093 if v022 == 71
+replace A_h = 2156 if v022 == 72
+replace A_h = 16086 if v022 == 73
+replace A_h = 4452 if v022 == 74
+
+* M_h average number of households per cluster by strata
+gen M_h = 0
+replace M_h = 210 if v022== 1
+replace M_h = 870 if v022== 2
+replace M_h = 210 if v022== 3
+replace M_h = 1020 if v022== 4
+replace M_h = 870 if v022== 5
+replace M_h = 270 if v022== 6
+replace M_h = 210 if v022== 7
+replace M_h = 720 if v022== 8
+replace M_h = 300 if v022== 9
+replace M_h = 750 if v022== 10
+replace M_h = 330 if v022== 11
+replace M_h = 660 if v022== 12
+replace M_h = 150 if v022== 13
+replace M_h = 930 if v022== 14
+replace M_h = 480 if v022== 15
+replace M_h = 810 if v022== 16
+replace M_h = 570 if v022== 17
+replace M_h = 780 if v022== 18
+replace M_h = 330 if v022== 19
+replace M_h = 840 if v022== 20
+replace M_h = 240 if v022== 21
+replace M_h = 840 if v022== 22
+replace M_h = 150 if v022== 23
+replace M_h = 960 if v022== 24
+replace M_h = 240 if v022== 25
+replace M_h = 810 if v022== 26
+replace M_h = 360 if v022== 27
+replace M_h = 870 if v022== 28
+replace M_h = 690 if v022== 29
+replace M_h = 390 if v022== 30
+replace M_h = 390 if v022== 31
+replace M_h = 690 if v022== 32
+replace M_h = 480 if v022== 33
+replace M_h = 630 if v022== 34
+replace M_h = 510 if v022== 35
+replace M_h = 570 if v022== 36
+replace M_h = 450 if v022== 37
+replace M_h = 750 if v022== 38
+replace M_h = 270 if v022== 39
+replace M_h = 900 if v022== 40
+replace M_h = 570 if v022== 41
+replace M_h = 480 if v022== 42
+replace M_h = 690 if v022== 43
+replace M_h = 450 if v022== 44
+replace M_h = 390 if v022== 45
+replace M_h = 630 if v022== 46
+replace M_h = 750 if v022== 47
+replace M_h = 360 if v022== 48
+replace M_h = 390 if v022== 49
+replace M_h = 780 if v022== 50
+replace M_h = 600 if v022== 51
+replace M_h = 570 if v022== 52
+replace M_h = 570 if v022== 53
+replace M_h = 300 if v022== 54
+replace M_h = 630 if v022== 55
+replace M_h = 420 if v022== 56
+replace M_h = 960 if v022== 57
+replace M_h = 240 if v022== 58
+replace M_h = 900 if v022== 59
+replace M_h = 180 if v022== 60
+replace M_h = 1020 if v022== 61
+replace M_h = 240 if v022== 62
+replace M_h = 750 if v022== 63
+replace M_h = 180 if v022== 64
+replace M_h = 1470 if v022== 65
+replace M_h = 60 if v022== 66
+replace M_h = 1170 if v022== 67
+replace M_h = 210 if v022== 68
+replace M_h = 720 if v022== 69
+replace M_h = 390 if v022== 70
+replace M_h = 960 if v022== 71
+replace M_h = 180 if v022== 72
+replace M_h = 1050 if v022== 73
+replace M_h = 240 if v022== 74
+
+* m_c total number of completed households (added from the HR dataset)
+gen m_c= 40047
+* M total number of households in country
+gen M = 55529028
+* S_h households selected per stratum
+gen S_h = 30
+gen DHSwt = v005 / 1000000
+
+**********************************************************************
+* Stage B *** Approximate Level-weights ***
+**********************************************************************
+* Steps to approximate Level-1 and Level-2 weights from Household or Individual Weights
+*Step 1. De-normalize the final weight, using approximated normalization factor
+gen d_HH = DHSwt * (M/m_c)
+*Step 2. Approximate the Level-2 weight
+* f the variation factor
+gen f = d_HH / ((A_h/a_c_h) * (M_h/S_h))
+* Calculating the level-weights based on different values of alpha
+scalar alpha = 0.5
+gen wt2 = (A_h/a_c_h)*(f^alpha)
+*** 3 ***************************
+gen wt1 = d_HH/wt2
+
+clonevar perweight = DHSwt
 
 **Keep variables
 keep survey clusterno strata perweight wt1 wt2 dvweight marry pregnant contra_intention dvmodule age familyplan health_care neweduclvl newhusedlvl sexual_autonomy massmediaa res_hlt polygamy wealthindex ethnic rel residence region child_desire violence ideal_child children abortion 

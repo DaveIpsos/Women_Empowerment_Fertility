@@ -10,36 +10,29 @@
 *************************************************************************************************************************************
 *************************************************************************************************************************************
 
-
-cd "C:\Users\Daves\OneDrive - Florida State University\Send to Dr Mike\Social Science and Medicine\idhs_00008.dat"
-preserve
-* Input the predicted probabilities data
+* Input the predicted probabilities data for sexual agency
 clear
-input str30 outcome byte level float margin float se float lci float uci
-"Non-childless" 1 -0.41 0.04 -0.50 -0.33
-"Non-childless" 2 -0.43 0.09 -0.60 -0.26
-"Non-childless" 3 -0.51 0.10 -0.70 -0.33
-"Pregnancy" 1 -0.75 0.05 -0.85 -0.66
-"Pregnancy" 2 -0.81 0.10 -1.00 -0.62
-"Pregnancy" 3 -0.71 0.11 -0.92 -0.49
-"Contraceptive" 1 -1.46 0.06 -1.58 -1.33
-"Contraceptive" 2 -1.10 0.11 -1.32 -0.89
-"Contraceptive" 3 -0.95 0.12 -1.18 -0.72
+* Average predicted probabilities from mimrgns ..., predict(pr eq(#)) -- already on 0-1 scale
+input str30 outcome byte level double margin double se double lci double uci
+"Parous" 1 .3442723 .0153022 .3142806 .3742641
+"Parous" 2 .3416339 .0305282 .2817998 .401468
+"Parous" 3 .3125058 .0324089 .2489855 .3760261
+"Pregnancy" 1 .2318126 .0147563 .2028909 .2607344
+"Pregnancy" 2 .2139638 .0284387 .158225 .2697026
+"Pregnancy" 3 .2394301 .0332719 .1742184 .3046418
+"Contraceptive" 1 .1025538 .009969 .0830149 .1220927
+"Contraceptive" 2 .1643236 .0234096 .1184416 .2102055
+"Contraceptive" 3 .1958807 .0270797 .1428054 .248956
 end
-
-* Convert to probability scale using normal()
-replace margin = normal(margin)
-replace lci = normal(lci)
-replace uci = normal(uci)
 
 * Label levels
 label define levellab 1 "Low" 2 "Moderate" 3 "High"
 label values level levellab
 
 * Create separate variables for each outcome
-gen nc_margin = margin if outcome == "Non-childless"
-gen nc_lci = lci if outcome == "Non-childless"
-gen nc_uci = uci if outcome == "Non-childless"
+gen nc_margin = margin if outcome == "Parous"
+gen nc_lci = lci if outcome == "Parous"
+gen nc_uci = uci if outcome == "Parous"
 
 gen preg_margin = margin if outcome == "Pregnancy"
 gen preg_lci = lci if outcome == "Pregnancy"
@@ -72,33 +65,30 @@ restore
 
 **************************************************************************************
 preserve
+
 * Input the predicted probabilities data for Healthcare Access
 clear
-input str30 outcome byte level float margin float se float lci float uci
-"Non-childless" 1 -0.53 0.08 -0.69 -0.38
-"Non-childless" 2 -0.38 0.06 -0.49 -0.26
-"Non-childless" 3 -0.42 0.07 -0.55 -0.29
-"Pregnancy" 1 -0.70 0.08 -0.86 -0.54
-"Pregnancy" 2 -0.84 0.06 -0.96 -0.72
-"Pregnancy" 3 -0.70 0.06 -0.83 -0.57
-"Contraceptive" 1 -1.48 0.11 -1.69 -1.28
-"Contraceptive" 2 -1.36 0.08 -1.51 -1.20
-"Contraceptive" 3 -1.24 0.08 -1.39 -1.08
+* Average predicted probabilities from mimrgns ..., predict(pr eq(#)) -- already on 0-1 scale
+input str30 outcome byte level double margin double se double lci double uci
+"Parous" 1 .3075251 .026169 .2562347 .3588155
+"Parous" 2 .356424 .0308442 .2959706 .4168775
+"Parous" 3 .3473784 .0179914 .3121159 .3826409
+"Pregnancy" 1 .2444178 .0248312 .1957493 .2930863
+"Pregnancy" 2 .2125316 .0240725 .1653499 .2597134
+"Pregnancy" 3 .2299665 .0152536 .2000699 .259863
+"Contraceptive" 1 .096947 .0157658 .0660466 .1278475
+"Contraceptive" 2 .0971217 .0155511 .0666422 .1276012
+"Contraceptive" 3 .1403547 .011556 .1177053 .163004
 end
-
-* Convert to probability scale using normal()
-replace margin = normal(margin)
-replace lci = normal(lci)
-replace uci = normal(uci)
 
 * Label levels
 label define levellab 1 "Low" 2 "Moderate" 3 "High"
 label values level levellab
 
 * Create separate variables for each outcome
-gen nc_margin = margin if outcome == "Non-childless"
-gen nc_lci = lci if outcome == "Non-childless"
-gen nc_uci = uci if outcome == "Non-childless"
+gen nc_margin = margin if outcome == "Parous"
+gen nc_lci = lci if outcome == "Parous"
+gen nc_uci = uci if outcome == "Parous"
 
 gen preg_margin = margin if outcome == "Pregnancy"
 gen preg_lci = lci if outcome == "Pregnancy"
@@ -132,30 +122,27 @@ restore
 
 ***********************************
 preserve
+
 * Input the predicted probabilities data for Decision on respondent's health
 clear
-input str30 outcome byte level float margin float se float lci float uci
-"Non-childless" 1 -0.47 0.04 -0.54 -0.39
-"Non-childless" 2 -0.23 0.09 -0.42 -0.05
-"Pregnancy" 1 -0.76 0.04 -0.84 -0.67
-"Pregnancy" 2 -0.77 0.10 -0.96 -0.58
-"Contraceptive" 1 -1.36 0.06 -1.47 -1.24
-"Contraceptive" 2 -1.26 0.11 -1.48 -1.03
+* Average predicted probabilities from mimrgns ..., predict(pr eq(#)) -- already on 0-1 scale
+input str30 outcome byte level double margin double se double lci double uci
+"Parous" 1 .3255937 .0136465 .298847 .3523404
+"Parous" 2 .4154895 .0351311 .3466338 .4843452
+"Pregnancy" 1 .2314486 .0125184 .206913 .2559842
+"Pregnancy" 2 .2219861 .02909 .1649708 .2790014
+"Contraceptive" 1 .1214703 .0098305 .1022028 .1407377
+"Contraceptive" 2 .136197 .0203254 .0963599 .1760341
 end
-
-* Convert to probability scale using normal()
-replace margin = normal(margin)
-replace lci = normal(lci)
-replace uci = normal(uci)
 
 * Label levels
 label define levellab 1 "Others" 2 "Respondent"
 label values level levellab
 
 * Create separate variables for each outcome
-gen nc_margin = margin if outcome == "Non-childless"
-gen nc_lci = lci if outcome == "Non-childless"
-gen nc_uci = uci if outcome == "Non-childless"
+gen nc_margin = margin if outcome == "Parous"
+gen nc_lci = lci if outcome == "Parous"
+gen nc_uci = uci if outcome == "Parous"
 
 gen preg_margin = margin if outcome == "Pregnancy"
 gen preg_lci = lci if outcome == "Pregnancy"
@@ -178,7 +165,7 @@ twoway ///
     xtitle("") ///
     ytitle("Probability", size(small) margin(l=5)) ///
     title("Decision on Respondent's Healthcare", size(medium) margin(small)) ///
-    legend(order(2 "Non-childless" 4 "Pregnancy" 6 "Contraceptive Use/Intention") ///
+    legend(order(2 "Parous" 4 "Pregnancy" 6 "Contraceptive Use/Intention") ///
     pos(6) cols(3) size(small) region(lcolor(none))) ///
     graphregion(color(white) margin(small)) ///
     plotregion(margin(medium)) ///
@@ -197,3 +184,4 @@ grc1leg2 sex_agency_probit healthcare_probit health_decision_probit, ///
     name(probit_combined, replace)
 
 graph export "combined_probit.png", replace width(6000) height(4200)
+
